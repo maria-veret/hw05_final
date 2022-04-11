@@ -1,0 +1,52 @@
+{% load user_filters %}
+{% if comments.count != 0 %}
+  {% with comments.count as total_comments %}
+  <hr>
+  <figure>
+    <blockquote class="blockquote">
+      <div>
+        Всего комментариев: {{ total_comments }}
+      </div>
+    </blockquote>
+  </figure>
+  {% endwith %}
+{% else %}
+  <hr>
+  <figure>
+    <blockquote class="blockquote">
+      <div>
+        Комментариев нет.
+      </div>
+    </blockquote>
+  </figure>
+{% endif %}
+
+{% if user.is_authenticated %}
+  <div class="card my-4">
+    <h5 class="card-header">Добавить комментарий:</h5>
+    <div class="card-body">
+      <form method="post" action="{% url 'posts:add_comment' post.id %}">
+        {% csrf_token %}      
+        <div class="form-group mb-2">
+          {{ form.text|addclass:"form-control" }}
+        </div>
+        <button type="submit" class="btn btn-primary">Отправить</button>
+      </form>
+    </div>
+  </div>
+{% endif %}
+
+{% for comment in comments %}
+  <div class="media mb-4">
+    <div class="shadow-sm p-2 bg-light rounded">
+      <h5 class="mt-0">
+        <a href="{% url 'posts:profile' comment.author.username %}">
+          {{ comment.author.username }}
+        </a>
+      </h5>
+        <p>
+         {{ comment.text }}
+        </p>
+      </div>
+    </div>
+{% endfor %}

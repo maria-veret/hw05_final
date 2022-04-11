@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %} 
+  <div class="container py-5"> 
+    <h2>Технологии</h2>
+    <hr>
+    <style>
+      .fig {
+      text-align: center;
+      }
+    </style>
+    <article> 
+      <p> 
+        Для создания данного сайта были применены следующие инструменты: 
+      </p>
+      <ul> 
+        <li> 
+          Волшебная палочка (для фокусировки воли волшебника):<br><br>
+          <img src="{% static 'img/1.png' %}" width="500" height="350"><br><br>
+        </li> 
+        <li> 
+          Криптобиоты (для пополнения запасов крови):<br><br> 
+          <img src="{% static 'img/2.png' %}" width="500" height="300"><br><br>
+        </li> 
+        <li> 
+          Шерсть кота (для тепла):<br><br>
+          <img src="{% static 'img/3.png' %}" width="500" height="700"><br><br>
+        </li>         
+      </ul>
+    </article>
+  </div>
+{% endblock %}
