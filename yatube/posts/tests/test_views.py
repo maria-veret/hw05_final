@@ -267,7 +267,7 @@ class FollowViewsTest(TestCase):
         Follow.objects.create(
             user=self.follower_1,
             author=self.author_1)
-        response = self.follower_client.post(
+        response = self.follower_client.get(
             reverse('posts:follow_index'))
         self.assertIn(post, response.context['page_obj'])
 
