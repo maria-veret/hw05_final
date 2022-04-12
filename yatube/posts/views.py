@@ -162,13 +162,23 @@ def post_edit(request: HttpRequest, post_id: int) -> HttpResponse:
 @login_required
 def add_comment(request: HttpRequest,
                 post_id: int) -> HttpResponse:
-    form = CommentForm(request.POST or None)
     post = get_object_or_404(Post, id=post_id)
-    if form.is_valid():
-        comment = form.save(commit=False)
-        comment.author = request.user
-        comment.post = post
-        comment.save()
+    if request.method != 'POST':
+        form = CommentForm()
+        context = {
+            'form': form,
+        }
+        return render(request, context)
+    form = CommentForm(request.POST or None)
+    if not form.is_valid():
+        context = {
+            'form': form,
+        }
+        return render(request, context)
+    comment = form.save(commit=False)
+    comment.author = request.user
+    comment.post = post
+    comment.save()
     return redirect('posts:post_detail', post.id)
 
 
@@ -177,6 +187,11 @@ def follow_index(request):
     title = 'Подписки'
     posts = Post.objects.filter(
         author__following__user=request.user)
+    if request.method != 'GET':
+        context = {
+            'title': title,
+        }
+        return render(request, context)
     paginator = Paginator(posts, settings.PAGE)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)

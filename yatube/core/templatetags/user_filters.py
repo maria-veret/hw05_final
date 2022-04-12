@@ -1,7 +1,6 @@
 from django import template
 from django.forms import Field
 
-
 register = template.Library()
 
 
